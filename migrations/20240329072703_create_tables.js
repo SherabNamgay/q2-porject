@@ -10,35 +10,35 @@ exports.up = function(knex) {
         table.string('email').notNullable().unique();
         table.string('salt',32).notNullable();
         table.string('hash',128).notNullable();
-        table.string('pfp'),
-        table.timestamp(true, true).notNullable();
+        table.string('pfp');
+        table.timestamps(true, true);
     })
     .createTable('messages', (table) =>{
         table.increments();
         table.integer('sender_id').unsigned().references('users.id');
         table.integer('receiver_id').unsigned().references('users.id');
         table.string('message',1024).notNullable();
-        table.timestamp(true, true).notNullable();
+        table.timestamps(true, true);
     })
     .createTable('posts', (table) =>{
         table.increments();
         table.integer('user_id').unsigned().references('users.id');
         table.integer('likes').notNullable().defaultTo(0);
         table.string('caption',1024);
-        table.timestamp(true, true).notNullable();
+        table.timestamps(true, true);
     })
     .createTable('comments', (table) =>{
         table.increments();
         table.integer('commentor_id').unsigned().references('users.id');
         table.integer('post_id').unsigned().references('posts.id');
         table.string('comment',1024).notNullable();
-        table.timestamp(true, true).notNullable();
+        table.timestamps(true, true);
     })
     .createTable('friend_list', (table) =>{
         table.increments();
         table.integer('user_id').unsigned().references('users.id');
         table.integer('friend_id').unsigned().references('users.id');
-        table.timestamp(true, true).notNullable(); 
+        table.timestamps(true, true); 
     })
   
 };
