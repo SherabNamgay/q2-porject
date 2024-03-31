@@ -28,7 +28,7 @@ export async function POST(req) {
         return Response.json({ body});
     } catch (error) {
         if (error.code === '23505') {
-            return new Response("User already exists",{status: 409});
+            return new Response("User already exists, try loging in",{status: 409});
         }
         return new Response("Internal Server Error", {status: 500});
     } 
