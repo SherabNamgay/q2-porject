@@ -1,10 +1,14 @@
 "use client"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { useRouter } from "next/navigation"
+import {userContext} from "@/app/state/user-context"
 
 export default function Login(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const{setUser} = useContext(userContext)
+    const router = useRouter()
 
     async function logIn(){
         try {
@@ -26,8 +30,9 @@ export default function Login(){
                     throw Error(responseData)
                 }
             }else{
-                alert('login successfull')
-                return req.json();
+                // alert('login successfull')
+                // return req.json();
+                router.push('/otherpages/home')
             }
             
         } catch (error) {
