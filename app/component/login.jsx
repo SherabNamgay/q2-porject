@@ -1,36 +1,32 @@
 "use client"
 import { useState } from "react"
 
-export default function SignUp(){
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
+export default function Login(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
 
-    async function createAccount(){
+    async function logIn(){
         try {
-            const req = await fetch("/api/users/signup", {
+            const req = await fetch("/api/users/login", {
                 method: "POST",
                 body: JSON.stringify({
-                    firstName,
-                    lastName,
                     email,
                     password
                 })
             })
-            if(!firstName || !lastName || !email || !password){
+            if(!email || !password){
                 throw new Error("Please fill all the fields")
             }
             if (!req.ok){
                 const responseData = await req.text()
-                if (req.status === 409){
+                if (req.status === 401){
                     throw Error(responseData)
-                }else{
-                    throw Error('Unkown Error occurred')
+                }else if(req.status === 404){
+                    throw Error(responseData)
                 }
             }else{
-                alert('User created successfully')
+                alert('login successfull')
                 return req.json();
             }
             
@@ -41,9 +37,11 @@ export default function SignUp(){
 
     return (
         <div className="bg-white flex flex-cols-2 h-screen w-screen ">
-            <div className="w-1/2 text-center bg-cover hidden md:block" style={{backgroundImage:"url('../image1.png')"}}>
-               <div className="space-y-2 p-5 text-center m-auto">
-                    <h1 className="text-center flex flex-col m-auto text-3xl font-bold  ">Welcome</h1>
+            <div className="w-1/2 text-center bg-cover h-full hidden md:block" style={{backgroundImage:"url('./image1.png')"}}>
+               <div className="space-y-2 p-5 text-center m-auto h-screen">
+                    <h1 className="text-center flex flex-col mt-14 m-auto text-3xl font-bold"
+                        >Welcome Back
+                    </h1>
                     <p
                         className=""
                      >Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae atque exercitationem quo pariatur laudantium minima, at recusandae nesciunt quis saepe tenetur possimus eligendi error voluptate iure, doloremque incidunt facere commodi.
@@ -53,29 +51,13 @@ export default function SignUp(){
             <div className="space-y-2 md:p-0 p-5 text-center text-black md:w-1/3 md:m-auto">
                 <h1 
                     className="font-bold text-blue-500 text-2xl"
-                >Sign up 
+                >Login 
                 </h1>
                 <p
                     className="opacity-[.48]"
                     >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam aliquam rem tenetur voluptatum fugiat illo unde assumenda, odit
                 </p>
                 <form className="pt-5 flex flex-col space-y-4">
-                    <div className="flex flex-col md:flex-row md:gap-2 space-y-4 md:space-y-0">
-                        <input
-                            type="text"
-                            className="border-2 h-10 px-2 rounded md:w-1/2 hover:border-blue-500 focus:border-blue-600"
-                            placeholder="First name"
-                            value={firstName}
-                            onChange={(e) => {setFirstName(e.target.value);setError("")}}
-                        />
-                        <input
-                            type="text"
-                            className="border-2 h-10 px-2 rounded md:w-1/2 hover:border-blue-500 focus:border-blue-600"
-                            placeholder="Last name"
-                            value={lastName}
-                            onChange={(e) => {setLastName(e.target.value);setError("")}}
-                        />
-                    </div>
                     <div>
                         <input
                             type="email"
@@ -103,17 +85,17 @@ export default function SignUp(){
                         type="submit"
                         onClick={async(e) => {
                             e.preventDefault();
-                            await createAccount();
+                            await logIn();
                         }}
-                     >Sign Up
+                     >Login
                     </button>
                 </form>
                 <p className="opacity-[.87] pt-10"
-                    >Already signed up?
+                    >Don't have an account?
                     <a 
-                    href="../"
+                    href="/otherpages/signup"
                     className="text-blue-500"
-                    > Login</a>
+                    > Sign Up</a>
                 </p>
             </div>
         </div>
