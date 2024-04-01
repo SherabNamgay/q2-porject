@@ -1,12 +1,15 @@
 "use client"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function SignUp(){
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [confrimPass, setConfrimPass] = useState("")
     const [error, setError] = useState("")
+    const router = useRouter()
 
     async function createAccount(){
         try {
@@ -22,6 +25,9 @@ export default function SignUp(){
             if(!firstName || !lastName || !email || !password){
                 throw new Error("Please fill all the fields")
             }
+            if(password !== confrimPass){
+                throw new Error("Passwords do not match")
+            }
             if (!req.ok){
                 const responseData = await req.text()
                 if (req.status === 409){
@@ -31,6 +37,7 @@ export default function SignUp(){
                 }
             }else{
                 alert('User created successfully')
+                router.push('/otherpages/home')
                 return req.json();
             }
             
@@ -88,13 +95,20 @@ export default function SignUp(){
                             }}
                         />
                     </div>
-                    <div>
+                    <div className=" md:flex-row md:gap-2 space-y-4 md:space-y-4">
                         <input
                             type="password"
                             className="border-2 px-2 h-10 rounded w-full hover:border-blue-500 focus:border-blue-600"
                             placeholder="Password"
                             value={password}
                             onChange={(e) => {setPassword(e.target.value);setError("")}}
+                        />
+                        <input
+                            type="password"
+                            className="border-2 px-2 h-10 rounded w-full hover:border-blue-500 focus:border-blue-600"
+                            placeholder="Confirm password"
+                            value={confrimPass}
+                            onChange={(e) => {setConfrimPass(e.target.value);setError("")}}
                         />
                     </div>
                         <p className="text-red-500 opacity-[.87] text-sm">{error}</p>

@@ -1,13 +1,13 @@
 "use client"
 import { useContext, useState } from "react"
 import { useRouter } from "next/navigation"
-import {userContext} from "@/app/state/user-context"
+import {UserContext} from "@/app/state/user-context"
 
 export default function Login(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
-    const{setUser} = useContext(userContext)
+    const{setUser} = useContext(UserContext)
     const router = useRouter()
 
     async function logIn(){
@@ -83,6 +83,7 @@ export default function Login(){
                             value={password}
                             onChange={(e) => {setPassword(e.target.value);setError("")}}
                         />
+                        
                     </div>
                         <p className="text-red-500 opacity-[.87] text-sm">{error}</p>
                     <button
