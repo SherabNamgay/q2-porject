@@ -6,6 +6,9 @@ export async function POST(req,{ params }) {
         const senderId = params.id;
         const {searchParams}= req.nextUrl
         const receiverId= searchParams.get('id')
+        if (!message){
+            throw new Error( "empty sting");
+        }
         const messages = await knex("messages")
             .insert({
                 sender_id: senderId,
