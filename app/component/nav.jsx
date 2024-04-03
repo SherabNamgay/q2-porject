@@ -1,7 +1,7 @@
 export default function Navbar() {
 
     return (
-<div className="flex md:flex-col flex-row justify-between md: items-center  w-screen h-16 md:w-16 md:h-screen md:py-8 md:space-y-8 bg-white dark:bg-gray-900 dark:border-gray-700">
+<div className="flex md:flex-col flex-row justify-between md: items-center  w-screen h-16 md:w-16 md:h-screen md:py-8 md:space-y-8 bg-white dark:bg-gray-900 dark:border-gray-700 border">
 <a href="#" className="p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-100">
   <img src="/Design3.png" className="w-8 h-8" alt="Chharo Logo" />
 </a>

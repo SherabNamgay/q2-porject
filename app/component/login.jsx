@@ -33,8 +33,8 @@ export default function Login(){
                 // alert('login successfull')
                 const { foundUser } =  await req.json();
                 setUser(foundUser)
-                // router.push('/otherpages/home')
-                router.push('/otherpages/message')
+                router.push('/otherpages/home')
+                // router.push('/otherpages/message')
             }
             
         } catch (error) {
