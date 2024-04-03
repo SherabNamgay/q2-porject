@@ -4,10 +4,10 @@ import crypto from "crypto";
 export async function GET(req, res) {
     try {
         const users = await knex("users").select("*");
-        return res.status(200).json(users);
+        return Response.json({ users });
     } catch (error) {
         console.error("GET Error:", error);
-        return res.status(500).json({ error: "Internal Server Error" });
+        return new Response("Internal Server Error", { status: 500 });
     }
 }
 

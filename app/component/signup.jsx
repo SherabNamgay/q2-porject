@@ -36,7 +36,7 @@ export default function SignUp(){
                     throw Error('Unkown Error occurred')
                 }
             }else{
-                alert('User created successfully')
+                // alert('User created successfully')
                 router.push('/otherpages/home')
                 return req.json();
             }
