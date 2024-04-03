@@ -77,14 +77,24 @@ export default function Message(){
     },[receiverID])
     
     return (
-        <div className='flex flex-row w-full'>
+        
+        <div className='flex flex-row w-full font-sans'>
+        
             {/* // contacts */}
-            <div className="relative md:block hidden h-full w-full py-10 overflow-y-auto bg-white border-l border-r sm:w-64 w-60 dark:bg-gray-900 dark:border-gray-700">
-                <div className='fixed h-screen w-48'>
-                    <h2 className="px-5 text-lg font-medium text-gray-800 dark:text-white">
-                        Messages
-                    </h2>
-                    <div className="flex flex-col  px-2 mt-8 space-y-2">
+            <div className={"relative h-full w-full  overflow-auto bg-white border-l border-r  md:w-64 dark:bg-gray-900 dark:border-gray-700 " + (!receiverID? "" : "hidden md:block")}>
+                <div className='fixed h-screen md:w-[160px] w-full md:min-w-[186px] dark:bg-gray-900 dark:border-gray-700 '>
+                    <div className="flex flex-col px-2 mt-8 overflow-y-auto space-y-2 ">
+                    <div className="flex space-x-2 px-2 h-12 whitespace-nowrap overflow-hidden overflow-ellipsis text-center ">
+                        <button onClick={() => router.back()}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                            </svg>
+                        </button>
+                        <h1 className=" flex items-center text-xl font-medium text-gray-800 dark:text-white gap-2">{user.first_name}<p className='text-gray-400 text-sm'>(you)</p></h1>
+                    </div>
+                        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
+                            Messages
+                        </h2>
                         {contacts.map((contact)=>(
                             <button 
                             className='w-full border-b border-grey-100 py-2 hover:bg-gray-100 dark:hover:bg-gray-800' 
@@ -102,10 +112,15 @@ export default function Message(){
                 </div>
             </div>
             {/* chatbox */}
-            <div className='w-full'>
+            <div className={"" +(!receiverID? "hidden md:block md:w-full" : "w-full")}>
                 {/*user details  */}
                 <div className=" flex flex-cols px-2 h-12 fixed top right w-screen bg-white dark:bg-gray-900 dark:border-grey-700 ">
                     <div className="flex text-2xl space-x-2 items-center font-mono">
+                        <button className="p-1 md:hidden" onClick={() => setReceiverID(null)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                            </svg>
+                        </button>
                         <div className="border overflow-hidden rounded-full full w-8 h-8">
                             <img src="/Design.png"/> {/* todo */}
                         </div>
@@ -114,7 +129,7 @@ export default function Message(){
                 </div>
 
                 {/* chat history */}
-                <div className="h-screen pt-12 ">
+                <div className="h-screen pt-12 w-full">
                     <div className='flex flex-col-reverse '>
                         {conversation.map((chat)=>{
                             const isMe = chat.sender_id === userID
@@ -122,7 +137,7 @@ export default function Message(){
                                 <div className='p-3'>
                                     <div key={chat.id} className={`flex  ${isMe ? "justify-end" : "justify-start"} items-center`}>
                                         <div>
-                                            <pre className={classNames("rounded-2xl py-2 px-4", isMe ? "bg-blue-500" : "bg-gray-300 text-black")}>{chat.message}</pre>
+                                            <pre className={classNames("rounded-2xl text-wrap py-2 px-4", isMe ? "bg-blue-500" : "bg-gray-300 text-black")}>{chat.message}</pre>
                                             <p className="text-xs text-right ">{formatDistance(new Date(chat.created_at), new Date())} ago</p>
                                         </div>
                                     </div>
