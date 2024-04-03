@@ -5,11 +5,14 @@ import { formatDistance } from 'date-fns';
 
 export default function Message(){
   const {user}=useContext(UserContext)
+//   const [userID, setUserID]= useState()
   
   const [message,setMessage]= useState('')
   const [conversation,setConversation]= useState([])
-  let userID=user.id
-  let receiverID=5
+// let userID = user.id
+let userID = 1
+let receiverID=5
+  
 
   function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -42,10 +45,10 @@ export default function Message(){
   },[receiverID,])
   
     return (
-        <div>
+        <div className='w-full'>
 
             {/*user details  */}
-            <div className=" flex flex-cols px-2 h-12 border sticky top-0 bg-white dark:bg-gray-900 dark:border-grey-700">
+            <div className=" flex flex-cols px-2 h-12 fixed top right w-screen bg-white dark:bg-gray-900 dark:border-grey-700 ">
                 <div className="flex text-2xl space-x-2 items-center font-mono">
                     <div className="border overflow-hidden rounded-full full w-8 h-8">
                          <img src="/Design.png"/> {/* todo */}
@@ -55,7 +58,7 @@ export default function Message(){
             </div>
 
             {/* chat history */}
-            <div className="h-screen">
+            <div className="h-screen pt-12">
                 <div className='flex flex-col-reverse'>
                     {conversation.map((chat)=>{
                         const isMe = chat.sender_id === userID
