@@ -3,7 +3,7 @@ import knex from "@/knex-connection";
 export async function GET(req, { params }) {
     const { id } = params;
     const { searchParams } = req.nextUrl;
-    const receiverId = searchParams.get("receiver_id");
+    const receiverId = searchParams.get("id");
 
     const messages = await knex('messages')       
         .join('users as senders', 'senders.id', 'messages.sender_id')
@@ -18,7 +18,7 @@ export async function GET(req, { params }) {
 })
 .orderBy('messages.created_at', 'desc')
 .limit(5)
-.select('messages.*','senders.name as sender','receivers.name as receiver');    
+.select('messages.*','senders.first_name as sender_first_name', 'senders.last_name as sender_last_name', 'receivers.first_name as receiver_first_name', 'receivers.last_name as receiver_last_name');    
 
 return Response.json({ data:messages });
 }
