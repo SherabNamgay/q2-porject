@@ -8,7 +8,7 @@ export default function Home () {
   const CHAT="chat"
   const POST="POST"
   const LIST="list"
-  const [appState,SetAppState] = useState(CHAT)
+  const [appState,SetAppState] = useState()
     return (     
         <div className="md:relative flex md:flex-row flex-col ">
           <div className="sticky md:h-screen top-0 left-0 flex">
