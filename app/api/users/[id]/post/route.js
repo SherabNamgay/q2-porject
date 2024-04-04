@@ -19,3 +19,16 @@ export async function POST(req, { params }) {
         console.error("POST Error:", error);
     }
 }
+
+export async function GET(req, { params }) {
+    try {
+        const { id } = params;
+        const data = await knex("posts")
+            .join("users", "users.id", "posts.user_id")
+            .where("user_id", id)
+            .select("posts.*", "users.first_name", "users.last_name");
+        return Response.json({ data });
+    } catch (error) {
+        console.error("GET Error:", error);
+    }
+}
