@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from 'react';
 import { formatDistance } from 'date-fns';
 import { useRouter } from 'next/navigation';
 
-export default function Message() {
+export default function Message({setAppState}) {
   const {user}=useContext(UserContext)
   const [contacts,setContacts]=useState([])
   const [receiverID,setReceiverID]=useState()
@@ -12,6 +12,7 @@ export default function Message() {
   const [message,setMessage]= useState('')
   const [conversation,setConversation]= useState([])
   const router = useRouter()
+  const POST ="POST"
   
   try {
 
@@ -84,7 +85,7 @@ export default function Message() {
                 <div className='fixed h-screen md:w-[160px] w-full md:min-w-[186px] dark:bg-gray-900 dark:border-gray-700 '>
                     <div className="flex flex-col px-2 mt-8 overflow-y-auto space-y-2 ">
                     <div className="flex space-x-2 px-2 h-12 whitespace-nowrap overflow-hidden overflow-ellipsis text-center ">
-                        <button onClick={() => router.back()}>
+                        <button onClick={() => setAppState(POST)}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                             </svg>
