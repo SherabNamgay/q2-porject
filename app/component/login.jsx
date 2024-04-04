@@ -1,5 +1,5 @@
 "use client"
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import {UserContext} from "@/app/state/user-context"
 
@@ -41,10 +41,10 @@ export default function Login(){
            setError(error.message)
         }
     }
-
+    
     return (
         <div className="bg-white flex flex-cols-2 h-screen w-screen ">
-            <div className="w-1/2 text-center bg-cover h-full hidden md:block" style={{backgroundImage:"url('./image1.png')"}}>
+            <div className="w-1/2 text-center bg-cover h-full hidden md:block" style={{backgroundImage:"url('../image1.png')"}}>
                <div className="space-y-2 p-5 text-center m-auto h-screen">
                     <h1 className="text-center flex flex-col mt-14 m-auto text-3xl font-bold"
                         >Welcome Back

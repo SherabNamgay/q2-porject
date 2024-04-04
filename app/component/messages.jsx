@@ -4,20 +4,19 @@ import { useState, useEffect, useContext } from 'react';
 import { formatDistance } from 'date-fns';
 import { useRouter } from 'next/navigation';
 
-export default function Message(){
+export default function Message() {
   const {user}=useContext(UserContext)
   const [contacts,setContacts]=useState([])
   const [receiverID,setReceiverID]=useState()
   const [receiverName,setReceiverName]=useState()
-//   const [userID, setUserID]= useState()
   const [message,setMessage]= useState('')
   const [conversation,setConversation]= useState([])
   const router = useRouter()
   
   try {
+
     let userID = user.id
-    // let userID = 1
-    // receiverID 
+    // let userID = 1 
     function classNames(...classes) {
         return classes.filter(Boolean).join(" ");
     }
@@ -105,7 +104,7 @@ export default function Message(){
                             }}
                             >
                                 <p className='text-left'>{contact.first_name} {contact.last_name}</p>
-                                <p className='whitespace-nowrap overflow-hidden overflow-ellipsis text-left pl-2 text-gray-400 h-5  text-sm'>{contact.message}</p>
+                                <p className='whitespace-nowrap overflow-hidden overflow-ellipsis text-left text-gray-400 h-5  text-sm'>{contact.message}</p>
                             </button>
                         ))}
                     </div>
@@ -170,8 +169,8 @@ export default function Message(){
         </div>
         
         
-        )
-    }catch(error){
-        router.push("../")
-    }
-    }
+    )
+  }catch(error){
+    router.push("../")
+  }
+}
