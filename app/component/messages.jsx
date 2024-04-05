@@ -1,5 +1,5 @@
 "use client"
-import { UserContext } from '../state/user-context';
+import { UserContext } from '@/app/state/user-context';
 import { useState, useEffect, useContext } from 'react';
 import { formatDistance } from 'date-fns';
 import { useRouter } from 'next/navigation';
@@ -15,8 +15,7 @@ export default function Message({setAppState}) {
   const POST ="POST"
   
   try {
-
-    let userID = user.id
+    let userID= user.id
     // let userID = 1 
     function classNames(...classes) {
         return classes.filter(Boolean).join(" ");

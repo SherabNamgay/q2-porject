@@ -3,7 +3,11 @@ import knex from "@/knex-connection";
 export async function POST(req, { params }) {
     try {
         const { id } = params;
-        const { post } = await req.json();  
+        const { post } = await req.json();
+        if(!post){
+            throw new error("empty post");
+        }
+
 
         const posts = await knex("posts")
             .insert({
@@ -25,10 +29,11 @@ export async function GET(req, { params }) {
         const { id } = params;
         const data = await knex("posts")
             .join("users", "users.id", "posts.user_id")
-            .where("user_id", id)
+            // .where("user_id", id)
             .select("posts.*", "users.first_name", "users.last_name");
         return Response.json({ data });
     } catch (error) {
         console.error("GET Error:", error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 }
