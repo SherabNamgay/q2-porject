@@ -1,14 +1,17 @@
 "use client"
 import Navbar from "@/app/component/nav"
 import Post from "@/app/component/post"
-// import ContactList from "@/app/component/contact"
 import Message from "@/app/component/messages"
+// import { UserContext } from '@/app/state/user-context'
 import {useState} from 'react'
 export default function Home () {
+  // const user= useContext(UserContext)
   const CHAT="chat"
   const POST="POST"
   const LIST="list"
   const [appState,setAppState] = useState(POST)
+  // let userID= user.id
+  // console.log(user)
   
     return (     
         <div className="md:relative flex md:flex-row flex-col ">
@@ -24,8 +27,9 @@ export default function Home () {
               setAppState={setAppState}
             /> 
           :""}
-          {appState === POST || "" ?
-            <Post/> 
+          {appState === POST ?
+            <Post
+            /> 
           :""}
         </div>
     )};
