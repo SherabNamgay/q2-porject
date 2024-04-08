@@ -7,12 +7,9 @@ export async function POST(req, { params }) {
         if(!post){
             throw new error("empty post");
         }
-
-
         const posts = await knex("posts")
             .insert({
                 user_id: id,            
-                likes: 0,
                 post : post 
             })
             .returning("*");    
@@ -21,6 +18,7 @@ export async function POST(req, { params }) {
 
     } catch (error) {
         console.error("POST Error:", error);
+        return new Response.json("Internal Server Error", { status: 500 });
     }
 }
 
@@ -31,7 +29,7 @@ export async function GET(req, { params }) {
             .join("users", "users.id", "posts.user_id")
             // .where("user_id", id)
             .select("posts.*", "users.first_name", "users.last_name")
-            .orderBy('created_at', 'DESC');
+            .orderBy('created_at', 'ACS');
         const postIds= data.map((post)=>{return post.id})
         const likes = await knex('likes').whereIn('post_id', postIds).where('user_id', id).select("*")
         const postsWithLikes = data.map((post)=>{
