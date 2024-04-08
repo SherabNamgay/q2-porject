@@ -36,3 +36,18 @@ export async function POST(req, { params }) {
         return new Response("Internal Server Error", { status: 500 });
     }
 }
+
+export async function GET(request, { params }) {
+    try {
+        const { id } = params;
+        const data = await knex("friend_list") 
+            .join("users", "friend_list.friend_id", "users.id")
+            .where("friend_list.user_id", id)   
+            .select("friend_list.*", "users.first_name", "users.last_name");
+
+        return new Response(JSON.stringify(data), { status: 200 });
+    } catch (error) {
+        console.error("GET Error:", error);
+        return new Response("Internal Server Error", { status: 500 });
+    }   
+}       
