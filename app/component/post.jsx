@@ -12,15 +12,23 @@ try{
     let userID= user.id
 
     async function tweet() {
-        const req = await fetch(`/api/users/${userID}/post`, {
-            method: "POST",
-            body: JSON.stringify({
-                post,
+        try{
+            const req = await fetch(`/api/users/${userID}/post`, {
+                method: "POST",
+                body: JSON.stringify({
+                    post,
+                })
+                
             })
-            
-        })
-        setPost("") 
-
+            if(req.ok){
+                await getPosts()
+                setPost("")
+            } else{
+                throw new Error("Something went wrong")
+            }
+        }catch(error){
+            console.error(error)
+        }
     }
     async function getPosts() {
         const req = await fetch(`/api/users/${userID}/post`)
