@@ -30,7 +30,7 @@ export async function GET(req) {
         .join("users","users.id","comments.commentor_id")
         .where("post_id",postID)
         .select("comments.*", "users.first_name", "users.last_name")
-
+        .orderBy('created_at', 'DESC');
         return Response.json({data})
 
     }catch(error){

@@ -3,12 +3,16 @@
 import { useEffect, useState, useContext } from 'react'
 import {formatDistance} from 'date-fns'
 import { UserContext } from '@/app/state/user-context'
+import { useRouter } from 'next/navigation'
 
 export default function Post() { 
     const [post, setPost] = useState('')
     const [feeds, setFeeds] = useState([])
     const {user}= useContext(UserContext)
     const [comment, setComment] = useState({})
+    const router= useRouter()
+    // const [comments, setComments] = useState([])
+    // const [viewComment, setViewComment] = useState(false)
 try{
     let userID= user.id
 
@@ -63,20 +67,14 @@ try{
             })
             handleComment(postID, "")
             getPosts()
-            // if(req.ok){
-                // const updatedPosts = await getPosts();
-                // setFeeds(updatedPosts)
-        //     }else{
-        //         throw new Error("Something went wrong")
-        //     }
-        // }catch(error){
-        //     console.log(error)
-        // }
+            
     }
+    
     const handleComment=(postID, comment)=>{
         setComment(prevState =>({
             ...prevState,
             [postID]: comment
+
         }))
     }
 
@@ -198,6 +196,7 @@ try{
                             </button>
                             {/* comment button */}
                             <button 
+                                onClick={()=>router.push(`./comments/${post.id}`)}
                                 className=''
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -205,17 +204,20 @@ try{
                                 </svg>
                             </button>
                         </div>
-                        <div className='hidden md:block'>  {/* for displaying comment */}
-                            commment from another
-                        </div>
-                        <button className='text-gray-400 pt-1 text-sm'>View all {post.comments} comments</button> {/*TODO*/}
+                        <button
+                            onClick={()=>router.push(`./comments/${post.id}`)}
+                            className='text-gray-400 pt-1 text-sm'
+                        >
+                            View all {post.comments} comments
+                        </button>
+                         {/* comment input feild */}
                         <div className="flex text-sm">
                             <textarea
                                 value={comment[post.id ||'']}
                                 rows="1"
-                                className="flex w-full bg-transparent h-8 placeholder-oppacity-50 py-1 outline-none "
+                                className="flex w-full bg-transparent h-8 placeholder-oppacity-50 py-1 outline-none resize-none"
                                 placeholder="Add a comment"
-                                onChange={(e)=>handleComment(post.id, e.target.value)} //TODO: send comment to DB(e.target.value)}
+                                onChange={(e)=>handleComment(post.id, e.target.value)}
                             />
                             <button 
                                 className={`text-blue-500 ${!comment[post.id] && "hidden"}`}
