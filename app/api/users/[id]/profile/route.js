@@ -4,12 +4,12 @@ export async function GET(req, { params }) {
     try {
         const { id } = params;
         const data = await knex("users")
-            .where("id", id)
-            .join("contacts", "contacts.user_id", "users.id")
+            .where("users.id", id)
+            .join("friend_list", "friend_list.user_id", "users.id")
             .join("posts", "posts.user_id", "users.id")
-            .select("user.first_name", "user.last_name", "contacts.*", "posts.*");
+            .select("users.first_name", "users.last_name", "friend_list.friend_id", "posts.*");
         return Response.json({ data });
-    } catch (error) {
+    } catch (error){ 
         console.error("GET Error:", error);
         return new Response("Internal Server Error", { status: 500 });
     }
