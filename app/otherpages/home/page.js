@@ -1,5 +1,6 @@
 "use client"
 import Navbar from "@/app/component/nav"
+import Profile from "@/app/component/profile"
 import Post from "@/app/component/post"
 import Message from "@/app/component/messages"
 // import { UserContext } from '@/app/state/user-context'
@@ -9,6 +10,7 @@ export default function Home () {
   const CHAT="chat"
   const POST="POST"
   const LIST="list"
+  const PROFLE="profile"
   const [appState,setAppState] = useState(POST)
   // let userID= user.id
   // console.log(user)
@@ -31,5 +33,11 @@ export default function Home () {
             <Post
             /> 
           :""}
+          {appState === PROFLE ?
+            <Profile
+            /> 
+          :""}
+
         </div>
+
     )};
