@@ -13,8 +13,8 @@ export default function CommentList({params}) {
     const [feeds, setFeeds] = useState([])
     const router = useRouter()
     try{
-        // let userID= user.id
-        let userID=1
+        let userID= user.id
+        // let userID=1
 
         async function getPosts() {
             const req = await fetch(`/api/users/${userID}/post?id=${postID}`)

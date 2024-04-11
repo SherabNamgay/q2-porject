@@ -4,18 +4,20 @@ import { useState, useEffect, useContext } from 'react';
 import { formatDistance } from 'date-fns';
 import { useRouter } from 'next/navigation';
 
-export default function Message({setAppState}) {
+export default function Message({setAppState,receiverID,setReceiverID}) {
   const {user}=useContext(UserContext)
   const [contacts,setContacts]=useState([])
-  const [receiverID,setReceiverID]=useState()
+//   const [receiverID,setReceiverID]=useState()
   const [receiverName,setReceiverName]=useState()
   const [message,setMessage]= useState('')
   const [conversation,setConversation]= useState([])
   const router = useRouter()
   const POST ="POST"
+//   console.log(receiverID)
   
   try {
     let userID= user.id
+
     // let userID = 1 
     function classNames(...classes) {
         return classes.filter(Boolean).join(" ");
@@ -46,7 +48,7 @@ export default function Message({setAppState}) {
         })
         setContacts(contacts)
     }
-    
+    // console.log(contacts)
     // to get the messagehistory
     async function getMessages(){
         const req = await fetch(`/api/users/${userID}/messages_history?id=${receiverID}`)
@@ -123,7 +125,13 @@ export default function Message({setAppState}) {
                         <div className="border overflow-hidden rounded-full full w-8 h-8">
                             <img src="/Design.png"/> {/* todo */}
                         </div>
-                        <h1>{receiverName}</h1>
+                        {contacts.map((contact)=>{
+                            return contact.id === receiverID?
+                                <h1 className="">
+                                    {contact.first_name} {contact.last_name}
+                                </h1>
+                                : null
+                        })}
                     </div>
                 </div>
 

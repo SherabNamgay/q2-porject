@@ -4,14 +4,18 @@ import { UserContext } from '@/app/state/user-context'
 import {useState,useEffect,useContext} from 'react'
 import { formatDistance } from 'date-fns'
 
-export default function Profile () {
-    const  {user } = useContext(UserContext)
-    const POST="POST"
-    const PROFILE="profile"
-    const [appState,setAppState] = useState(POST)
-    let userID= user.id
-    // console.log(userID)
+export default function Profile ({profileID}) {
+    const  {user} = useContext(UserContext)
+    let userID=null
+    if(profileID){
+         userID= profileID
+    }else{
+        userID= user.id
+    }
+
+    console.log(userID)
     // let userID= 3
+
     const [profile, setProfile] = useState({})
     const [posts, setPosts] = useState([])
     const [friends, setFriends] = useState([])
@@ -30,11 +34,11 @@ export default function Profile () {
     useEffect(() => {
         getProfile() 
         // getUser()   
-    }, [])
+    }, [userID])
 
     return (
-        <div className="md:flex pt-1 mx-auto w-3/4">
-            <div className="h-screen overflow-y-scroll">
+        <div className="md:flex pt-1 mx-auto md:w-3/4 w-full">
+            <div className="h-screen overflow-y-scroll" style={{scrollbarWidth:"none"}}>
                 <div className="w-full mx-auto">
                     {profile?.first_name && (
                         <div className="w-full border rounded outline-2 border-blue-500 py-8">

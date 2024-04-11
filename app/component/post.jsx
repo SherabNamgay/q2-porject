@@ -11,8 +11,7 @@ export default function Post() {
     const {user}= useContext(UserContext)
     const [comment, setComment] = useState({})
     const router= useRouter()
-    // const [comments, setComments] = useState([])
-    // const [viewComment, setViewComment] = useState(false)
+   
 try{
     let userID= user.id
 
