@@ -5,12 +5,13 @@ import {formatDistance} from 'date-fns'
 import { UserContext } from '@/app/state/user-context'
 import { useRouter } from 'next/navigation'
 
-export default function Post() { 
+export default function Post({setAppState, setProfileID}) { 
     const [post, setPost] = useState('')
     const [feeds, setFeeds] = useState([])
     const {user}= useContext(UserContext)
     const [comment, setComment] = useState({})
     const router= useRouter()
+    const [commentCounts, setCommentCounts] = useState(0)
    
 try{
     let userID= user.id
@@ -39,7 +40,16 @@ try{
         const {data} = await req.json()
        
         // console.log(data)
-        setFeeds(data)  
+        setFeeds(data) 
+
+        const commentCountsData={}
+        for (const post of data){
+            const commentsReq= await fetch(`/api/users/${userID}/post/comment?id=${post.id}`)
+            const {data:commentsData} = await commentsReq.json()
+            commentCountsData[post.id]=commentsData.length  
+        } 
+        setCommentCounts(commentCountsData)
+        // console.log(commentCountsData)
     }
     async function likePost(postID) {
         // console.log(postID)
@@ -65,8 +75,7 @@ try{
                 })
             })
             handleComment(postID, "")
-            getPosts()
-            
+            getPosts() 
     }
     
     const handleComment=(postID, comment)=>{
@@ -76,9 +85,9 @@ try{
 
         }))
     }
-
     useEffect(() => {
         getPosts()
+        // getComments(postID)
     }, [])
     
     return (
@@ -145,8 +154,16 @@ try{
                     return (
                         <div key={post.id} className='w-full rounded-lg border-2 border-gray-800 bg-transparent p-4 '>
                                 {/* post name and time */}
-                            <div className='flex justify-between font-bold '>
-                                {post.first_name + " " + post.last_name}
+                            <div className='flex justify-between font-bold pb-1'>
+                                <button 
+                                    onClick={() => {
+                                        setProfileID(post.user_id)
+                                        setAppState("PROFILE")
+                                    }}
+                                    className=''
+                                >
+                                    {post.first_name + " " + post.last_name}
+                                </button>
                                 <h2 className='text-xs font-normal italic'>{formatDistance(new Date(post.created_at), new Date())} ago</h2>
                             </div>
                             {/* post content */}
@@ -166,20 +183,14 @@ try{
                                 {/* comment button */}
                                 <button 
                                     onClick={()=>router.push(`./comments/${post.id}`)}
-                                    className=''
+                                    className='flex'
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
                                     </svg>
+                                    <p className='text-gray-300 pl-1'>{commentCounts[post.id]}</p>
                                 </button>
                             </div>
-                            <button
-                                onClick={()=>router.push(`./comments/${post.id}`)}
-                                className='text-gray-400 pt-1 text-sm'
-                            >
-                                View all {post.comments} comments
-                            </button>
-                            {/* comment input feild */}
                             <div className="flex text-sm">
                                 <textarea
                                     value={comment[post.id ||'']}
