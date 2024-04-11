@@ -37,7 +37,7 @@ export async function POST(req, { params }) {
     }
 }
 
-export async function GET(request, { params }) {
+export async function GET(req, { params }) {
     try {
         const { id } = params;
         const data = await knex("friend_list") 
