@@ -15,7 +15,7 @@ export default function Home () {
   const [receiverID,setReceiverID] = useState(null)
   const [profileID,setProfileID] = useState(null)
 
-  console.log(appState)
+  // console.log(appState)
   
   return (     
     <div className="md:relative flex md:flex-row flex-col ">
@@ -36,6 +36,8 @@ export default function Home () {
       :""}
       {appState === POST ?
         <Post
+        setAppState={setAppState}
+        setProfileID={setProfileID}
         /> 
       :""}
       {appState === PROFLE ?

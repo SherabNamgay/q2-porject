@@ -13,7 +13,7 @@ export default function Profile ({profileID}) {
         userID= user.id
     }
 
-    console.log(userID)
+    // console.log(userID)
     // let userID= 3
 
     const [profile, setProfile] = useState({})
