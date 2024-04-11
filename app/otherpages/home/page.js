@@ -20,6 +20,7 @@ export default function Home () {
           <div className="sticky md:h-screen top-0 left-0 flex">
             <Navbar
               setAppState={setAppState}
+              appState={appState}
               
             />
             {/* <ContactList/> */}
