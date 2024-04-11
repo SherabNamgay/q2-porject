@@ -3,12 +3,20 @@ import knex from "@/knex-connection";
 export async function GET(req, { params }) {
     try {
         const { id } = params;
-        const data = await knex("users")
+        const user = await knex("users")
             .where("users.id", id)
-            .join("friend_list", "friend_list.user_id", "users.id")
-            .join("posts", "posts.user_id", "users.id")
-            .select("users.first_name", "users.last_name", "friend_list.friend_id", "posts.*");
-        return Response.json({ data });
+            .first('*')
+
+        const posts = await knex('posts')
+            .join('users', 'users.id', 'posts.user_id')
+            .where("user_id", id)
+            .select('posts.*', 'users.first_name', 'users.last_name')
+
+        const friends = await knex('friend_list')
+            .where("user_id", id)
+            .select('*')
+
+        return Response.json({ data: { user, posts, friends } });
     } catch (error){ 
         console.error("GET Error:", error);
         return new Response("Internal Server Error", { status: 500 });
