@@ -4,11 +4,11 @@ import { useState, useEffect, useContext } from 'react';
 import { formatDistance } from 'date-fns';
 import { useRouter } from 'next/navigation';
 
-export default function Message({setAppState,receiverID,setReceiverID}) {
+export default function Message({setAppState,receiverID,setReceiverID,setProfileID}) {
   const {user}=useContext(UserContext)
   const [contacts,setContacts]=useState([])
 //   const [receiverID,setReceiverID]=useState()
-  const [receiverName,setReceiverName]=useState()
+  
   const [message,setMessage]= useState('')
   const [conversation,setConversation]= useState([])
   const router = useRouter()
@@ -102,7 +102,6 @@ export default function Message({setAppState,receiverID,setReceiverID}) {
                             key={contact.id} 
                             onClick={()=>{
                                 setReceiverID(contact.id);
-                                setReceiverName(`${contact.first_name} ${contact.last_name}`)
                             }}
                             >
                                 <p className='text-left'>{contact.first_name} {contact.last_name}</p>
@@ -116,7 +115,8 @@ export default function Message({setAppState,receiverID,setReceiverID}) {
             <div className={"" +(!receiverID? "hidden md:block md:w-full" : "w-full")}>
                 {/*user details  */}
                 <div className=" flex flex-cols px-2 h-12 fixed top right w-screen bg-white dark:bg-gray-900 dark:border-grey-700 ">
-                    <div className="flex text-2xl space-x-2 items-center font-mono">
+                    <div className="flex text-2xl space-x-2 items-center">
+                        {/* back button */}
                         <button className="p-1 md:hidden" onClick={() => setReceiverID(null)}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -125,13 +125,18 @@ export default function Message({setAppState,receiverID,setReceiverID}) {
                         <div className="border overflow-hidden rounded-full full w-8 h-8">
                             <img src="/Design.png"/> {/* todo */}
                         </div>
-                        {contacts.map((contact)=>{
-                            return contact.id === receiverID?
-                                <h1 className="">
-                                    {contact.first_name} {contact.last_name}
-                                </h1>
+                            {contacts.map((contact)=>{
+                                return contact.id === receiverID?
+                                    <button
+                                        onClick={() => {
+                                            setProfileID(contact.id)
+                                            setAppState("PROFILE")
+                                        }}
+                                    >
+                                        {contact.first_name} {contact.last_name}
+                                    </button>
                                 : null
-                        })}
+                            })}
                     </div>
                 </div>
 

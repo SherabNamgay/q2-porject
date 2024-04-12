@@ -69,6 +69,7 @@ export default function SignUp(){
                 <form className="pt-5 flex flex-col space-y-4">
                     <div className="flex flex-col md:flex-row md:gap-2 space-y-4 md:space-y-0">
                         <input
+                            name="firstName"
                             type="text"
                             className="border-2 h-10 px-2 rounded md:w-1/2 hover:border-blue-500 focus:border-blue-600"
                             placeholder="First name"
@@ -76,6 +77,7 @@ export default function SignUp(){
                             onChange={(e) => {setFirstName(e.target.value);setError("")}}
                         />
                         <input
+                            name="lastName"
                             type="text"
                             className="border-2 h-10 px-2 rounded md:w-1/2 hover:border-blue-500 focus:border-blue-600"
                             placeholder="Last name"
@@ -85,6 +87,7 @@ export default function SignUp(){
                     </div>
                     <div>
                         <input
+                            name="email"
                             type="email"
                             className="border-2 px-2 h-10 rounded w-full hover:border-blue-500 focus:border-blue-600"
                             placeholder="Email"
@@ -97,6 +100,7 @@ export default function SignUp(){
                     </div>
                     <div className=" md:flex-row md:gap-2 space-y-4 md:space-y-4">
                         <input
+                            name="password"
                             type="password"
                             className="border-2 px-2 h-10 rounded w-full hover:border-blue-500 focus:border-blue-600"
                             placeholder="Password"
@@ -104,6 +108,7 @@ export default function SignUp(){
                             onChange={(e) => {setPassword(e.target.value);setError("")}}
                         />
                         <input
+                            name="confrimPass"
                             type="password"
                             className="border-2 px-2 h-10 rounded w-full hover:border-blue-500 focus:border-blue-600"
                             placeholder="Confirm password"
