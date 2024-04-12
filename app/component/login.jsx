@@ -47,11 +47,11 @@ export default function Login(){
             <div className="w-1/2 text-center bg-cover h-full hidden md:block" style={{backgroundImage:"url('../image1.png')"}}>
                <div className="space-y-2 p-5 text-center m-auto h-screen">
                     <h1 className="text-center flex flex-col mt-14 m-auto text-3xl font-bold"
-                        >Welcome Back
+                        >Welcome 
                     </h1>
                     <p
-                        className=""
-                     >Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae atque exercitationem quo pariatur laudantium minima, at recusandae nesciunt quis saepe tenetur possimus eligendi error voluptate iure, doloremque incidunt facere commodi.
+                        className="text-sans italic"
+                     >Welcome to Chharo, where you can chat with your friends and family.
                     </p>
                </div>
             </div>
@@ -62,7 +62,8 @@ export default function Login(){
                 </h1>
                 <p
                     className="opacity-[.48]"
-                    >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam aliquam rem tenetur voluptatum fugiat illo unde assumenda, odit
+                    >
+                    Login to your account
                 </p>
                 <form className="pt-5 flex flex-col space-y-4">
                     <div >
