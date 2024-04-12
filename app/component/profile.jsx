@@ -55,8 +55,8 @@ export default function Profile ({profileID, setAppState, setReceiverID}) {
     }, [userID])
 
     return (
-        <div className="md:flex pt-1 mx-auto md:w-3/4 w-full">
-            <div className="h-screen overflow-y-scroll" style={{scrollbarWidth:"none"}}>
+        <div className="md:flex pt-1 mx-auto  md:place-content-center w-full">
+            <div className="h-screen overflow-y-scroll md:w-3/4" style={{scrollbarWidth:"none"}}>
                 <div className="w-full mx-auto">
                     {profile?.first_name && (
                         <div className="w-full border rounded outline-2 border-blue-500 py-8">

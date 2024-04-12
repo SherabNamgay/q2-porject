@@ -85,17 +85,19 @@ export default function Message({setAppState,receiverID,setReceiverID,setProfile
             <div className={"relative h-full w-full  overflow-auto bg-white border-l border-r  md:w-64 dark:bg-gray-900 dark:border-gray-700 " + (!receiverID? "" : "hidden md:block")}>
                 <div className='fixed h-screen md:w-[160px] w-full md:min-w-[186px] dark:bg-gray-900 dark:border-gray-700 '>
                     <div className="flex flex-col px-2 mt-8 overflow-y-auto space-y-2 ">
-                    <div className="flex space-x-2 px-2 h-12 whitespace-nowrap overflow-hidden overflow-ellipsis text-center ">
-                        <button onClick={() => setAppState(POST)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                            </svg>
-                        </button>
-                        <h1 className=" flex items-center text-xl font-medium text-gray-800 dark:text-white gap-2">{user.first_name}<p className='text-gray-400 text-sm'>(you)</p></h1>
-                    </div>
+                        <div className="flex space-x-2 px-2 h-12 whitespace-nowrap overflow-hidden overflow-ellipsis text-center ">
+                            <button onClick={() => setAppState(POST)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                                </svg>
+                            </button>
+                            <h1 className=" flex items-center text-xl font-medium text-gray-800 dark:text-white gap-2">{user.first_name}<p className='text-gray-400 text-sm'>(you)</p></h1>
+                        </div>
                         <h2 className="text-lg font-medium text-gray-800 dark:text-white">
                             Messages
                         </h2>
+                    </div>
+                    <div className=' p-2'>
                         {contacts.map((contact)=>(
                             <button 
                             className='w-full border-b border-grey-100 py-2 hover:bg-gray-100 dark:hover:bg-gray-800' 
