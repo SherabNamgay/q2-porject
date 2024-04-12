@@ -4,11 +4,11 @@ import { useState, useEffect, useContext } from 'react';
 import { formatDistance } from 'date-fns';
 import { useRouter } from 'next/navigation';
 
-export default function Message({setAppState,receiverID,setReceiverID}) {
+export default function Message({setAppState,receiverID,setReceiverID,setProfileID}) {
   const {user}=useContext(UserContext)
   const [contacts,setContacts]=useState([])
 //   const [receiverID,setReceiverID]=useState()
-  const [receiverName,setReceiverName]=useState()
+  
   const [message,setMessage]= useState('')
   const [conversation,setConversation]= useState([])
   const router = useRouter()
@@ -85,24 +85,25 @@ export default function Message({setAppState,receiverID,setReceiverID}) {
             <div className={"relative h-full w-full  overflow-auto bg-white border-l border-r  md:w-64 dark:bg-gray-900 dark:border-gray-700 " + (!receiverID? "" : "hidden md:block")}>
                 <div className='fixed h-screen md:w-[160px] w-full md:min-w-[186px] dark:bg-gray-900 dark:border-gray-700 '>
                     <div className="flex flex-col px-2 mt-8 overflow-y-auto space-y-2 ">
-                    <div className="flex space-x-2 px-2 h-12 whitespace-nowrap overflow-hidden overflow-ellipsis text-center ">
-                        <button onClick={() => setAppState(POST)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                            </svg>
-                        </button>
-                        <h1 className=" flex items-center text-xl font-medium text-gray-800 dark:text-white gap-2">{user.first_name}<p className='text-gray-400 text-sm'>(you)</p></h1>
-                    </div>
+                        <div className="flex space-x-2 px-2 h-12 whitespace-nowrap overflow-hidden overflow-ellipsis text-center ">
+                            <button onClick={() => setAppState(POST)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                                </svg>
+                            </button>
+                            <h1 className=" flex items-center text-xl font-medium text-gray-800 dark:text-white gap-2">{user.first_name}<p className='text-gray-400 text-sm'>(you)</p></h1>
+                        </div>
                         <h2 className="text-lg font-medium text-gray-800 dark:text-white">
                             Messages
                         </h2>
+                    </div>
+                    <div className=' p-2'>
                         {contacts.map((contact)=>(
                             <button 
                             className='w-full border-b border-grey-100 py-2 hover:bg-gray-100 dark:hover:bg-gray-800' 
                             key={contact.id} 
                             onClick={()=>{
                                 setReceiverID(contact.id);
-                                setReceiverName(`${contact.first_name} ${contact.last_name}`)
                             }}
                             >
                                 <p className='text-left'>{contact.first_name} {contact.last_name}</p>
@@ -116,7 +117,8 @@ export default function Message({setAppState,receiverID,setReceiverID}) {
             <div className={"" +(!receiverID? "hidden md:block md:w-full" : "w-full")}>
                 {/*user details  */}
                 <div className=" flex flex-cols px-2 h-12 fixed top right w-screen bg-white dark:bg-gray-900 dark:border-grey-700 ">
-                    <div className="flex text-2xl space-x-2 items-center font-mono">
+                    <div className="flex text-2xl space-x-2 items-center">
+                        {/* back button */}
                         <button className="p-1 md:hidden" onClick={() => setReceiverID(null)}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -125,13 +127,18 @@ export default function Message({setAppState,receiverID,setReceiverID}) {
                         <div className="border overflow-hidden rounded-full full w-8 h-8">
                             <img src="/Design.png"/> {/* todo */}
                         </div>
-                        {contacts.map((contact)=>{
-                            return contact.id === receiverID?
-                                <h1 className="">
-                                    {contact.first_name} {contact.last_name}
-                                </h1>
+                            {contacts.map((contact)=>{
+                                return contact.id === receiverID?
+                                    <button
+                                        onClick={() => {
+                                            setProfileID(contact.id)
+                                            setAppState("PROFILE")
+                                        }}
+                                    >
+                                        {contact.first_name} {contact.last_name}
+                                    </button>
                                 : null
-                        })}
+                            })}
                     </div>
                 </div>
 

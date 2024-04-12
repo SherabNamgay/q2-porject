@@ -4,41 +4,59 @@ import { UserContext } from '@/app/state/user-context'
 import {useState,useEffect,useContext} from 'react'
 import { formatDistance } from 'date-fns'
 
-export default function Profile ({profileID}) {
-    const  {user} = useContext(UserContext)
+export default function Profile ({profileID, setAppState, setReceiverID}) {
+    const {user} = useContext(UserContext)
+    const [isfriends, setIsfriends] = useState([])
+    const [profile, setProfile] = useState({})
+    const [posts, setPosts] = useState([])
+    const [friends, setFriends] = useState([])
+    const [following, setFollowing] = useState([])
+
+
     let userID=null
     if(profileID){
          userID= profileID
     }else{
         userID= user.id
     }
-
+    let theUserID=user.id
     // console.log(userID)
     // let userID= 3
 
-    const [profile, setProfile] = useState({})
-    const [posts, setPosts] = useState([])
-    const [friends, setFriends] = useState([])
 
     async function getProfile() {
-        const req = await fetch(`/api/users/${userID}/profile`) 
-        const {data: { user, posts, friends }} = await req.json()
+        const req = await fetch(`/api/users/${userID}/profile?id=${theUserID}`) 
+        const {data: { user, posts, friends, following, isfriends}} = await req.json()
         setProfile(user)
         setPosts(posts)
         setFriends(friends)
+        setIsfriends(isfriends)
+        setFollowing(following)
     }
-    async function follow (friendID) {
-        const req = await fetch(`/api/users/${userID}/follow?id=${friendID}`)
+    async function follow(friendID) {
+        const req = await fetch(`/api/users/${user.id}/follow`,{
+            method: "POST",
+            body: JSON.stringify({
+                friendID,
+            })
+        })
+        getProfile()
     }
+    console.log(isfriends)
+    // console.log(user.id, 'id')
+    // console.log(profileID, 'profileID')
+    // console.log(userID, 'userID')
+    // console.log(profile.id, 'profile.id')
+    // console.log("data:", isfriends)
 
     useEffect(() => {
         getProfile() 
-        // getUser()   
+     
     }, [userID])
 
     return (
-        <div className="md:flex pt-1 mx-auto md:w-3/4 w-full">
-            <div className="h-screen overflow-y-scroll" style={{scrollbarWidth:"none"}}>
+        <div className="md:flex pt-1 mx-auto  md:place-content-center w-full">
+            <div className="h-screen overflow-y-scroll md:w-3/4" style={{scrollbarWidth:"none"}}>
                 <div className="w-full mx-auto">
                     {profile?.first_name && (
                         <div className="w-full border rounded outline-2 border-blue-500 py-8">
@@ -49,20 +67,28 @@ export default function Profile ({profileID}) {
                             </h1>
                             <h1 className="flex justify-center font-bold text-xl">{profile.first_name} {profile.last_name} </h1>
                             <div className="flex cols-2 justify-around px-3 ">
-                                <h2 className=" ">Following:  {friends?.length}</h2>
+                                <h2 className=" ">Following:  {following?.length}</h2>
                                 <h2 className="">Posts:  {posts?.length}</h2>
                             </div>
-                            <div className="pt-2 space-x-10 flex justify-center">
-                                <button
-                                    onClick={() => follow(profile.id)} 
-                                    className='justify-center font-semibold border rounded-xl flex px-2 w-24 gap-1'
-                                > 
-                                    Follow
-                                </button>
-                                <button className='justify-center font-semibold border rounded-xl flex px-2 w-24 gap-1'>
-                                    Message
-                                </button>
-                            </div>
+                                {user.id !== profile.id && (
+                                    <div className="pt-2 space-x-10 flex justify-center">
+                                        <button
+                                            onClick={() => follow(profile.id)} 
+                                            className='justify-center font-semibold border rounded-xl flex px-2 w-24 gap-1'
+                                        > 
+                                           {isfriends?.find((friend) => friend.friend_id === profile.id) ? 'Following' : 'Follow'}
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setReceiverID(profile.id)
+                                                setAppState("CHAT")
+                                            }}
+                                            className='justify-center font-semibold border rounded-xl flex px-2 w-24 gap-1'
+                                        >
+                                            Message
+                                        </button>
+                                    </div> 
+                                )}
                         </div>
                     )}
                 </div>

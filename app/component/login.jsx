@@ -65,8 +65,9 @@ export default function Login(){
                     >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam aliquam rem tenetur voluptatum fugiat illo unde assumenda, odit
                 </p>
                 <form className="pt-5 flex flex-col space-y-4">
-                    <div>
+                    <div >
                         <input
+                            name="email"
                             type="email"
                             className="border-2 px-2 h-10 rounded w-full hover:border-blue-500 focus:border-blue-600"
                             placeholder="Email"
@@ -79,6 +80,7 @@ export default function Login(){
                     </div>
                     <div>
                         <input
+                            name="password"
                             type="password"
                             className="border-2 px-2 h-10 rounded w-full hover:border-blue-500 focus:border-blue-600"
                             placeholder="Password"

@@ -30,6 +30,7 @@ export default function Home () {
       {appState === CHAT ?
         <Message
           setAppState={setAppState}
+          setProfileID={setProfileID}
           receiverID={receiverID}
           setReceiverID={setReceiverID}
         /> 
@@ -43,6 +44,8 @@ export default function Home () {
       {appState === PROFLE ?
         <Profile
           profileID={profileID}
+          setAppState={setAppState}
+          setReceiverID={setReceiverID}
         /> 
       :""}
       {appState === LIST ?
